@@ -18,10 +18,14 @@ How to use it
 
 	# kldload sys/xtrace.ko
 
+.
+
 	# bin/xtrace/xtrace /bin/ls
 	started pid 4467
 	Makefile	bin		sys		xtrace.out
 	child returned with 0
+
+.
 
 	# bin/xdump/xdump xtrace.out 
 	 4466: fork pid=4467
@@ -54,6 +58,35 @@ How to use it
 		  22: GROUP=wheel
 		  23: HOST=fbsd11
 	 4467: exit rval=0
+
+.
+
+	# bin/xdot/xdot xtrace.out
+	digraph G {
+		"0:/usr/bin/make\n0:/usr/bin/make\n" -> "1:/bin/sh\n0:sh\n1:-c\n2:cc --version || echo 0...\n"
+		"1:/bin/sh\n0:sh\n1:-c\n2:cc --version || echo 0...\n" -> "2:/usr/bin/cc\n0:cc\n1:--version\n"
+		"0:/usr/bin/make\n0:/usr/bin/make\n" -> "3:/bin/sh\n0:sh\n1:-c\n2:echo '3.8.0 3.8.0)' | ...\n"
+		"3:/bin/sh\n0:sh\n1:-c\n2:echo '3.8.0 3.8.0)' | ...\n" -> "5:/usr/bin/awk\n0:awk\n1:-F.\n2:{print $1 * 10000 + $2...\n"
+		"0:/usr/bin/make\n0:/usr/bin/make\n" -> "6:/bin/sh\n0:sh\n1:-c\n2:{ echo '__FreeBSD_cc_v...\n"
+		"6:/bin/sh\n0:sh\n1:-c\n2:{ echo '__FreeBSD_cc_v...\n" -> "8:/usr/bin/sed\n0:sed\n1:-n\n2:$p\n"
+		"10:/usr/bin/cc\n0:cc\n1:-E\n2:-\n" -> "11:/usr/bin/cc\n0:/usr/bin/cc\n1:-cc1\n2:-triple\n3:x86_64-unknown-freebsd...\n4:-E\n5:-disable-free\n6:-disable-llvm-verifier\n7:-main-file-name\n8:-\n9:-mrelocation-model\n10:static\n11:-mthread-model\n12:posix\n13:-mdisable-fp-elim\n14:-masm-verbose\n15:-mconstructor-aliases\n16:-munwind-tables\n17:-target-cpu\n18:x86-64\n19:-dwarf-column-info\n20:-debugger-tuning=gdb\n21:-resource-dir\n22:/usr/bin/../lib/clang/...\n23:-fdebug-compilation-dir\n24:/usr/home/xigh/src/xtrace\n25:-ferror-limit\n26:19\n27:-fmessage-length\n28:0\n29:-fobjc-runtime=gnustep\n30:-fdiagnostics-show-option\n31:-o\n32:-\n33:-x\n34:c\n35:-\n"
+		"0:/usr/bin/make\n0:/usr/bin/make\n" -> "12:/bin/sh\n0:/bin/sh\n1:-e\n2:-c\n3:target=all;  for dir i...\n"
+		"12:/bin/sh\n0:/bin/sh\n1:-e\n2:-c\n3:target=all;  for dir i...\n" -> "13:/usr/bin/make\n0:/usr/bin/make\n1:all\n2:DIRPRFX=sys/\n"
+		"13:/usr/bin/make\n0:/usr/bin/make\n1:all\n2:DIRPRFX=sys/\n" -> "14:/bin/sh\n0:sh\n1:-c\n2:find /usr/src/sys/ -na...\n"
+		"13:/usr/bin/make\n0:/usr/bin/make\n1:all\n2:DIRPRFX=sys/\n" -> "14:/usr/bin/find\n0:find\n1:/usr/src/sys/\n2:-name\n3:*_if.m\n"
+		"13:/usr/bin/make\n0:/usr/bin/make\n1:all\n2:DIRPRFX=sys/\n" -> "15:/bin/sh\n0:/bin/sh\n1:-e\n2:-c\n3:echo 'Warning: Object ...\n"
+		"12:/bin/sh\n0:/bin/sh\n1:-e\n2:-c\n3:target=all;  for dir i...\n" -> "16:/usr/bin/make\n0:/usr/bin/make\n1:all\n2:DIRPRFX=bin/\n"
+		"16:/usr/bin/make\n0:/usr/bin/make\n1:all\n2:DIRPRFX=bin/\n" -> "17:/bin/sh\n0:/bin/sh\n1:-e\n2:-c\n3:target=all;  for dir i...\n"
+		"17:/bin/sh\n0:/bin/sh\n1:-e\n2:-c\n3:target=all;  for dir i...\n" -> "18:/usr/bin/make\n0:/usr/bin/make\n1:all\n2:DIRPRFX=bin/xtrace/\n"
+		"18:/usr/bin/make\n0:/usr/bin/make\n1:all\n2:DIRPRFX=bin/xtrace/\n" -> "19:/bin/sh\n0:/bin/sh\n1:-e\n2:-c\n3:echo 'Warning: Object ...\n"
+		"17:/bin/sh\n0:/bin/sh\n1:-e\n2:-c\n3:target=all;  for dir i...\n" -> "20:/usr/bin/make\n0:/usr/bin/make\n1:all\n2:DIRPRFX=bin/xdump/\n"
+		"20:/usr/bin/make\n0:/usr/bin/make\n1:all\n2:DIRPRFX=bin/xdump/\n" -> "21:/bin/sh\n0:/bin/sh\n1:-e\n2:-c\n3:echo 'Warning: Object ...\n"
+		"17:/bin/sh\n0:/bin/sh\n1:-e\n2:-c\n3:target=all;  for dir i...\n" -> "22:/usr/bin/make\n0:/usr/bin/make\n1:all\n2:DIRPRFX=bin/xdot/\n"
+		"22:/usr/bin/make\n0:/usr/bin/make\n1:all\n2:DIRPRFX=bin/xdot/\n" -> "23:/bin/sh\n0:/bin/sh\n1:-e\n2:-c\n3:echo 'Warning: Object ...\n"
+	}
+		
+
+![My image](img/data.png)
 
 How it works
 --------------
