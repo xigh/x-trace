@@ -86,7 +86,7 @@ How to use it
 	}
 		
 
-![My image](img/data.png)
+![My image](img/example.png)
 
 How it works
 --------------
