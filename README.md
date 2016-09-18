@@ -104,7 +104,7 @@ When the kernel module loads, it install hooks on a few syscalls:
 	cb_exec = sysent[SYS_execve].sy_call;
 	sysent[SYS_execve].sy_call =  &xtrace_exec;
 
-
+Then call the original syscall:
 
 	static sy_call_t *cb_exit = 0;
 	static int xtrace_exit(struct thread *td, void *uap) {
