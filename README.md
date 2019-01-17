@@ -1,5 +1,5 @@
 # x-trace
-FreeBSD 11 kernel hacking example : x-trace, simple tool to trace execution
+FreeBSD 11+12 kernel hacking example : x-trace, simple tool to trace execution
 
 Description
 --------------
