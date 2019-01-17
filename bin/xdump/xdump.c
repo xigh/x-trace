@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <string.h>
 
 #include "../../sys/xtrace.h"
@@ -21,15 +22,25 @@ main(int argc, char **argv, char **envv)
 	struct xtrace_msg msg;
 	char *buf;
 	ssize_t l;
+	int i, showEnvs;
+
+	showEnvs = 0;
+	for (i = 1; i < argc; i ++) {
+		if (strcmp(argv[i], "-e") == 0) {
+			showEnvs = 1;
+			continue;
+		}
+		break;
+	}
 	
-	if (argc < 2) {
-		fprintf(stderr, "usage: xdump <trace-file>\n");
+	if (argc < 1 + i) {
+		fprintf(stderr, "usage: xdump [-e] <trace-file>\n");
 		return -1;
 	}
 
-	fd = open(argv[1], O_RDONLY);
+	fd = open(argv[i], O_RDONLY);
 	if (fd < 0) {
-		perror("open xtrace.out");
+		fprintf(stderr, "open %s: %s\n", argv[i], strerror(errno));
 		return -1;
 	}
 
@@ -86,7 +97,7 @@ main(int argc, char **argv, char **envv)
 					printf("\t  %2d: %s\n", i, buf);
 				}
 			}
-			if (1) {
+			if (showEnvs) {
 				int i;
 				printf("\tenvv:\n");
 				for (i = 0; i < msg.arg1; i += 1) {

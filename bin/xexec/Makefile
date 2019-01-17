@@ -24,10 +24,10 @@
 #  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
-# 
+#
 
-SUBDIR=	xtrace xdump xexec xdot
+PROG=	xexec
+SRCS=	xexec.c
+MAN=
 
-load unload: _SUBDIR
-
-.include <bsd.subdir.mk>
+.include <bsd.prog.mk>

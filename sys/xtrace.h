@@ -33,7 +33,8 @@
 enum {
 	XTRACE_OP_FORK,
 	XTRACE_OP_EXEC,
-	XTRACE_OP_EXIT
+	XTRACE_OP_EXIT,
+	XTRACE_OP_CHDIR
 };
 
 struct xtrace_msg {
